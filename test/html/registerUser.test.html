@@ -1,0 +1,22 @@
+<script>
+    const req = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name: 'Buzz', surname: 'Ligthyear', username: 'Buzzie', email: 'buzzlightyear@email.com', password: 'toystory255' })
+    }
+
+    fetch('http://localhost:9001/api/users', req)
+        .catch(error => console.error(error))
+        .then(res => {
+            if (res.ok) {
+                res.json()
+                    .catch(error => console.error(error))
+                    .then(body => console.log(res.status, body))
+            } else {
+                console.error(res.status)
+            }
+        })
+
+</script>
