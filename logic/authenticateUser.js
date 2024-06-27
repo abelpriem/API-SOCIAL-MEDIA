@@ -26,7 +26,7 @@ export default async function authenticateUser(email, password) {
             throw new CredentialsError('Wrong credentials... Try again')
         }
 
-        return user._id
+        return { username: user.username, id: user._id }
     } catch (error) {
         if (error instanceof NotFoundError || error instanceof ContentError || error instanceof CredentialsError) {
             throw error

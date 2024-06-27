@@ -49,13 +49,22 @@ class SystemError extends Error {
     }
 }
 
+class AuthorizationError extends Error {
+    constructor(message) {
+        super(message)
+
+        this.name = this.constructor.name
+    }
+}
+
 const errors = {
     NotFoundError,
     DuplicityError,
     CredentialsError,
     ContentError,
     TokenError,
-    SystemError
+    SystemError,
+    AuthorizationError
 }
 
 export default errors

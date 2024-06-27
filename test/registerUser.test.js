@@ -7,7 +7,7 @@ dotenv.config()
 mongoose.connect(process.env.URL_MONGODB_API_SOCIALMEDIA)
     .then(() => {
         try {
-            registerUser('Abel', 'Prieto', 'NanoPucela', 'abelprieto@email.com', '123123123')
+            registerUser('Buzz', 'Lightyear', 'Buzzie999', 'buzzlightyear@email.com', '123123123')
                 .then(user => console.log('User succesfully registered!', user))
                 .catch(error => console.error(error))
         } catch (error) {

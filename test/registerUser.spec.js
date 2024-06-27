@@ -25,7 +25,7 @@ describe('registerUser', async () => {
         const hash = await bcrypt.hash(password, 5)
         const user = await User.create({ name, surname, username, email, password: hash })
 
-        expect(user).to.be.an(Object)
+        expect(user).to.be.an('Object')
         expect(user.name).to.be.equal(name)
         expect(user.surname).to.be.equal(surname)
         expect(user.username).to.be.equal(username)

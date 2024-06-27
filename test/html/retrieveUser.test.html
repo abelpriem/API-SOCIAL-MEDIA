@@ -1,13 +1,14 @@
 <script>
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjdjMzc4NTI3ODczN2E5NTAyOTZkNjYiLCJpYXQiOjE3MTk0MTY4MDcsImV4cCI6MTcyMjAwODgwN30.6isD9OcLY8cz0GwcwrPCOIYnr146QV32nKRuOxPF0Go'
+
     const req = {
-        method: 'POST',
+        method: 'GET',
         headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name: 'Peter', surname: 'Pan', username: 'PeterPan', email: 'peterpan@email.com', password: '123123123' })
+            Authorization: `Bearer ${token}`
+        }
     }
 
-    fetch('http://localhost:9001/api/users', req)
+    fetch('http://localhost:9001/api/users/667c37bd278737a950296d6c', req)
         .catch(error => console.error(error))
         .then(res => {
             if (res.ok) {
@@ -18,5 +19,4 @@
                 console.error(res.status)
             }
         })
-
 </script>

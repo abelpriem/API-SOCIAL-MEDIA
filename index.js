@@ -4,7 +4,8 @@ import express from 'express'
 import cors from 'cors'
 import {
     registerUserHandler,
-    authenticateUserHandler
+    authenticateUserHandler,
+    retrieveUserHandler
 } from './handlers/index.js'
 
 dotenv.config()
@@ -21,8 +22,11 @@ mongoose.connect(process.env.URL_MONGODB_API_SOCIALMEDIA)
         // ROUTE - REGISTER USER
         server.post('/api/users', jasonBodyParser, registerUserHandler)
 
-        // ROUTE - AUTHENTICATE USER
+        // ROUTE - LOGIN USER
         server.post('/api/users/auth', jasonBodyParser, authenticateUserHandler)
+
+        // ROUTE - RETRIEVE USER
+        server.get('/api/users/:id', retrieveUserHandler)
 
         // CONNECTION
         server.listen(process.env.PORT, () => console.log(`Server Online! Listening on: ${process.env.PORT}`))
