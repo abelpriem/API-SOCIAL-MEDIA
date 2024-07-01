@@ -11,7 +11,7 @@ export default async (req, res) => {
     } catch (error) {
         let status = 500
 
-        if (error instanceof ContentError) {
+        if (error instanceof ContentError || error instanceof TypeError) {
             status = 409
         }
 

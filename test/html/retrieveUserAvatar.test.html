@@ -1,0 +1,22 @@
+<script>
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjdjMzc4NTI3ODczN2E5NTAyOTZkNjYiLCJpYXQiOjE3MTk4MjAyNTIsImV4cCI6MTcyMjQxMjI1Mn0.BiaKzUUbT__MpblYtnNbDrVfO3KxwFZfbIeUFRKeq_Q'
+
+    const req = {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    fetch('http://localhost:9001/api/users/avatar/socialmedia.png', req)
+        .catch(error => console.error(error))
+        .then(res => {
+            if (res.ok) {
+                res.json()
+                    .catch(error => console.error(error))
+                    .then(body => console.log(res.status, body))
+            } else {
+                console.error(res.status)
+            }
+        })
+</script>

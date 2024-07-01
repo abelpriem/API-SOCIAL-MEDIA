@@ -1,17 +1,20 @@
-import retrieveUser from '../logic/retrieveUser.js'
 import jwt from 'jsonwebtoken'
 import errors from '../utils/errors.js'
-const { NotFoundError, TokenError, ContentError } = errors
+import uploadFile from '../logic/uploadFile.js'
 const { JsonWebTokenError } = jwt
+const { NotFoundError, ContentError, TokenError } = errors
+
 
 export default async (req, res) => {
     try {
         const token = req.headers.authorization.substring(7)
         const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
-        const userIdToSearch = req.params.id
 
-        const userToSearch = await retrieveUser(userId, userIdToSearch)
-        res.status(200).json({ user: userToSearch })
+        const file = req.file
+
+        const userUpdated = await uploadFile(userId, file.originalname, file.path, file.mimetype)
+
+        res.status(200).send({ success: 'true', file: file, userUpdated: userUpdated })
     } catch (error) {
         let status = 500
 

@@ -1,5 +1,6 @@
-import retrieveUser from '../logic/retrieveUser.js'
 import jwt from 'jsonwebtoken'
+import path from 'path'
+import retrieveUserAvatar from '../logic/retrieveUserAvatar.js'
 import errors from '../utils/errors.js'
 const { NotFoundError, TokenError, ContentError } = errors
 const { JsonWebTokenError } = jwt
@@ -8,10 +9,13 @@ export default async (req, res) => {
     try {
         const token = req.headers.authorization.substring(7)
         const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
-        const userIdToSearch = req.params.id
 
-        const userToSearch = await retrieveUser(userId, userIdToSearch)
-        res.status(200).json({ user: userToSearch })
+        const fileName = req.params.name
+
+        const avatarPath = await retrieveUserAvatar(userId, fileName)
+        const avatar = path.resolve(avatarPath)
+
+        res.sendFile(avatar)
     } catch (error) {
         let status = 500
 

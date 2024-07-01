@@ -1,17 +1,25 @@
-import retrieveUser from '../logic/retrieveUser.js'
+import retrievePageUser from '../logic/retrievePageUser.js'
 import jwt from 'jsonwebtoken'
 import errors from '../utils/errors.js'
-const { NotFoundError, TokenError, ContentError } = errors
 const { JsonWebTokenError } = jwt
+const { NotFoundError, TokenError, ContentError } = errors
 
 export default async (req, res) => {
+    let page = req.params.page || 1
+
     try {
         const token = req.headers.authorization.substring(7)
         const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
-        const userIdToSearch = req.params.id
 
-        const userToSearch = await retrieveUser(userId, userIdToSearch)
-        res.status(200).json({ user: userToSearch })
+        const result = await retrievePageUser(userId, page)
+
+        res.status(200).json({
+            success: true,
+            page: parseInt(page, 10),
+            total: result.total,
+            users: result.users
+        })
+
     } catch (error) {
         let status = 500
 

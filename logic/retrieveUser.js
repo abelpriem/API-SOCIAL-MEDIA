@@ -24,12 +24,14 @@ export default async function retrieveUser(userId, userIdToSearch) {
             throw new NotFoundError('User not found. Try it again')
         }
 
-        return {
+        const result = {
             name: userToFind.name,
             surname: userToFind.surname,
             nick: userToFind.username,
             image: userToFind.image
         }
+
+        return result
     } catch (error) {
         if (error instanceof NotFoundError || error instanceof ContentError) {
             throw error
