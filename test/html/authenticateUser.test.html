@@ -4,10 +4,10 @@
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email: 'abelprieto@email.com', password: '123123123' })
+        body: JSON.stringify({ email: 'woodywestern@email.com', password: '123123123' })
     }
 
-    fetch('http://localhost:9001/api/users/auth', req)
+    fetch('http://localhost:9001/api/user/auth', req)
         .catch(error => console.error(error))
         .then(res => {
             if (res.ok) {

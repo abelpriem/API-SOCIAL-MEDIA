@@ -1,21 +1,19 @@
-import jwt from 'jsonwebtoken'
-import path from 'path'
-import retrieveUserAvatar from '../logic/retrieveUserAvatar.js'
+import deleteFollow from '../logic/deleteFollow.js'
 import errors from '../utils/errors.js'
-const { NotFoundError, TokenError, ContentError } = errors
+import jwt from 'jsonwebtoken'
 const { JsonWebTokenError } = jwt
+const { NotFoundError, TokenError, ContentError } = errors
 
 export default async (req, res) => {
     try {
         const token = req.headers.authorization.substring(7)
         const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
-        const fileName = req.params.file
+        const followedId = req.params.followedId
 
-        const avatarPath = await retrieveUserAvatar(userId, fileName)
-        const avatar = path.resolve(avatarPath)
+        await deleteFollow(userId, followedId)
+        res.status(200).json({ success: 'true', message: 'Follow succesfully removed!' })
 
-        res.sendFile(avatar)
     } catch (error) {
         let status = 500
 

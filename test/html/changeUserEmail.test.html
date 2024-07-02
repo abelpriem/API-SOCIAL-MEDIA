@@ -10,7 +10,7 @@
         body: JSON.stringify({ newEmail: 'peterpan@email.com' })
     }
 
-    fetch('http://localhost:9001/api/users/update/email', req)
+    fetch('http://localhost:9001/api/user/update/email', req)
         .catch(error => console.error(error))
         .then(res => {
             if (res.ok) {

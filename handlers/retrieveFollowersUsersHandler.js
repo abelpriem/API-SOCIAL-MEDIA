@@ -1,8 +1,7 @@
-import jwt from 'jsonwebtoken'
-import path from 'path'
-import retrieveUserAvatar from '../logic/retrieveUserAvatar.js'
+import retrieveFollowersUsers from '../logic/retrieveFollowersUsers.js'
 import errors from '../utils/errors.js'
-const { NotFoundError, TokenError, ContentError } = errors
+import jwt from 'jsonwebtoken'
+const { NotFoundError, ContentError, TokenError } = errors
 const { JsonWebTokenError } = jwt
 
 export default async (req, res) => {
@@ -10,12 +9,8 @@ export default async (req, res) => {
         const token = req.headers.authorization.substring(7)
         const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
-        const fileName = req.params.file
-
-        const avatarPath = await retrieveUserAvatar(userId, fileName)
-        const avatar = path.resolve(avatarPath)
-
-        res.sendFile(avatar)
+        const followersUsers = await retrieveFollowersUsers(userId)
+        res.status(200).send({ success: 'true', user: userId, message: 'Your followers: ', followers: followersUsers })
     } catch (error) {
         let status = 500
 

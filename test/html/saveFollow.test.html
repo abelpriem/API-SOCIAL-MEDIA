@@ -1,14 +1,17 @@
+¡
 <script>
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjdjMzdiZDI3ODczN2E5NTAyOTZkNmMiLCJpYXQiOjE3MTk0OTc4MDEsImV4cCI6MTcyMjA4OTgwMX0.hrYL891FQa6QnzhNhwAAs_HdsXogH2_KNcbGYctWjkc'
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjdjMzc4NTI3ODczN2E5NTAyOTZkNjYiLCJpYXQiOjE3MTk4NDM5NjgsImV4cCI6MTcyMjQzNTk2OH0.lBzoorAFCyGY03T_k_tcRWTBz-cRC0vmLA7XYwUsvP8"
 
     const req = {
-        method: 'GET',
+        method: 'POST',
         headers: {
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
-        }
+        },
+        body: JSON.stringify({ userToFollow: '667c37bd278737a950296d6c' })
     }
 
-    fetch('http://localhost:9001/api/user/list/1', req)
+    fetch('http://localhost:9001/api/follow/save', req)
         .catch(error => console.error(error))
         .then(res => {
             if (res.ok) {

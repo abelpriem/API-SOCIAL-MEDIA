@@ -1,8 +1,7 @@
+import savePost from '../logic/savePost.js'
 import jwt from 'jsonwebtoken'
-import path from 'path'
-import retrieveUserAvatar from '../logic/retrieveUserAvatar.js'
 import errors from '../utils/errors.js'
-const { NotFoundError, TokenError, ContentError } = errors
+const { NotFoundError, TokenError } = errors
 const { JsonWebTokenError } = jwt
 
 export default async (req, res) => {
@@ -10,21 +9,24 @@ export default async (req, res) => {
         const token = req.headers.authorization.substring(7)
         const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
-        const fileName = req.params.file
+        const { text } = req.body
+        const file = req.file
 
-        const avatarPath = await retrieveUserAvatar(userId, fileName)
-        const avatar = path.resolve(avatarPath)
+        let fileName, filePath, fileType
 
-        res.sendFile(avatar)
+        if (file) {
+            fileName = file.filename
+            filePath = file.path
+            fileType = file.mimetype
+        }
+
+        const newPost = await savePost(userId, text, fileName, filePath, fileType)
+        res.status(201).json({ success: 'true', post: newPost })
     } catch (error) {
         let status = 500
 
         if (error instanceof NotFoundError) {
             status = 404
-        }
-
-        if (error instanceof ContentError || error instanceof TypeError) {
-            status = 409
         }
 
         if (error instanceof JsonWebTokenError) {

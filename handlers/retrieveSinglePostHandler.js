@@ -1,8 +1,7 @@
+import retrieveSinglePost from '../logic/retrieveSinglePost.js'
 import jwt from 'jsonwebtoken'
-import path from 'path'
-import retrieveUserAvatar from '../logic/retrieveUserAvatar.js'
 import errors from '../utils/errors.js'
-const { NotFoundError, TokenError, ContentError } = errors
+const { NotFoundError, ContentError, TokenError } = errors
 const { JsonWebTokenError } = jwt
 
 export default async (req, res) => {
@@ -10,12 +9,10 @@ export default async (req, res) => {
         const token = req.headers.authorization.substring(7)
         const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
-        const fileName = req.params.file
+        const postId = req.params.postId
 
-        const avatarPath = await retrieveUserAvatar(userId, fileName)
-        const avatar = path.resolve(avatarPath)
-
-        res.sendFile(avatar)
+        const post = await retrieveSinglePost(userId, postId)
+        res.status(200).send({ success: 'true', singlePost: post })
     } catch (error) {
         let status = 500
 

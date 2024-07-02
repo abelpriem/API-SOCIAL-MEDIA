@@ -7,7 +7,7 @@
         body: JSON.stringify({ name: 'Peter', surname: 'Pan', username: 'PeterPan', email: 'peterpan@email.com', password: '123123123' })
     }
 
-    fetch('http://localhost:9001/api/users', req)
+    fetch('http://localhost:9001/api/user', req)
         .catch(error => console.error(error))
         .then(res => {
             if (res.ok) {

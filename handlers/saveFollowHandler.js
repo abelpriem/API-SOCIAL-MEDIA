@@ -1,8 +1,7 @@
-import jwt from 'jsonwebtoken'
-import path from 'path'
-import retrieveUserAvatar from '../logic/retrieveUserAvatar.js'
+import saveFollow from '../logic/saveFollow.js'
 import errors from '../utils/errors.js'
-const { NotFoundError, TokenError, ContentError } = errors
+import jwt from 'jsonwebtoken'
+const { NotFoundError, TokenError, ContentError, DuplicityError } = errors
 const { JsonWebTokenError } = jwt
 
 export default async (req, res) => {
@@ -10,12 +9,15 @@ export default async (req, res) => {
         const token = req.headers.authorization.substring(7)
         const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
-        const fileName = req.params.file
+        const { userToFollow } = req.body
 
-        const avatarPath = await retrieveUserAvatar(userId, fileName)
-        const avatar = path.resolve(avatarPath)
+        if (!userToFollow) {
+            throw new ContentError('userToFollow is required')
+        }
 
-        res.sendFile(avatar)
+        const userFollowed = await saveFollow(userId, userToFollow)
+        res.status(200).json({ success: 'true', message: 'User succesfully followed!', user: userId, follow: userFollowed })
+
     } catch (error) {
         let status = 500
 
@@ -23,7 +25,7 @@ export default async (req, res) => {
             status = 404
         }
 
-        if (error instanceof ContentError || error instanceof TypeError) {
+        if (error instanceof ContentError || error instanceof DuplicityError || error instanceof TypeError) {
             status = 409
         }
 

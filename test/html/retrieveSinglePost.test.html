@@ -1,5 +1,5 @@
 <script>
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjdjMzdiZDI3ODczN2E5NTAyOTZkNmMiLCJpYXQiOjE3MTk0OTc4MDEsImV4cCI6MTcyMjA4OTgwMX0.hrYL891FQa6QnzhNhwAAs_HdsXogH2_KNcbGYctWjkc'
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjdjMzdiZDI3ODczN2E5NTAyOTZkNmMiLCJpYXQiOjE3MTk5MTA5MDQsImV4cCI6MTcyMjUwMjkwNH0.kbgYc90WHIrMbuxD_6o6t6bBokw55bGipaSuktI3ses'
 
     const req = {
         method: 'GET',
@@ -8,7 +8,7 @@
         }
     }
 
-    fetch('http://localhost:9001/api/user/list/1', req)
+    fetch('http://localhost:9001/api/post/66830c82da95b2cef4d5df71', req)
         .catch(error => console.error(error))
         .then(res => {
             if (res.ok) {

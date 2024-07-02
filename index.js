@@ -7,11 +7,20 @@ import {
     authenticateUserHandler,
     changeUserPasswordHandler,
     changeUserEmailHandler,
+    deleteFollowHandler,
+    deletePostHandler,
     registerUserHandler,
+    retrieveAllPostsHandler,
+    retrieveFollowingUsersHandler,
+    retrieveFollowersUsersHandler,
     retrieveUserHandler,
     retrieveUserAvatarHandler,
+    retrieveUserPostsHandler,
     retrievePageUserHandler,
-    uploadFileHandler
+    retrieveSinglePostHandler,
+    saveFollowHandler,
+    savePostHandler,
+    uploadFileHandler,
 } from './handlers/index.js'
 
 dotenv.config()
@@ -29,37 +38,66 @@ mongoose.connect(process.env.URL_MONGODB_API_SOCIALMEDIA)
         //         cb(null, './uploads/avatars/')
         //     },
         //     filename: (req, file, cb) => {
-        //         cb(null, 'article' + Date.now() + file.originalname)
+        //         cb(null, 'avatar' + Date.now() + file.originalname)
         //     }
         // })
 
-        const uploads = multer({ dest: 'uploads/avatars' })
+        // MULTER - STORAGE AVATAR CONFIGURATION
+        const uploadAvatar = multer({ dest: 'uploads/avatars' })
+        const uploadPost = multer({ dest: 'uploads/posts' })
 
         server.use(cors())
 
         // ROUTE - REGISTER USER
-        server.post('/api/users', jasonBodyParser, registerUserHandler)
+        server.post('/api/user', jasonBodyParser, registerUserHandler)
 
         // ROUTE - LOGIN USER
-        server.post('/api/users/auth', jasonBodyParser, authenticateUserHandler)
+        server.post('/api/user/auth', jasonBodyParser, authenticateUserHandler)
 
         // ROUTE - RETRIEVE USER
-        server.get('/api/users/:id', retrieveUserHandler)
+        server.get('/api/user/:id', retrieveUserHandler)
 
         // ROUTE - LIST USERS
-        server.get('/api/users/list/:page?', retrievePageUserHandler)
+        server.get('/api/user/list/:page?', retrievePageUserHandler)
 
         // ROUTE - UPDATE USER PASSWORD
-        server.put('/api/users/update/password', jasonBodyParser, changeUserPasswordHandler)
+        server.put('/api/user/update/password', jasonBodyParser, changeUserPasswordHandler)
 
         // ROUTE - UPDATE USER EMAIL
-        server.put('/api/users/update/email', jasonBodyParser, changeUserEmailHandler)
+        server.put('/api/user/update/email', jasonBodyParser, changeUserEmailHandler)
 
         // ROUTE - UPLOAD AVATAR IMAGE
-        server.post('/api/users/upload', uploads.single('file'), uploadFileHandler)
+        server.post('/api/user/upload', uploadAvatar.single('file'), uploadFileHandler)
 
         // ROUTE - GET AVATAR
-        server.get('/api/users/avatar/:name', retrieveUserAvatarHandler)
+        server.get('/api/user/avatar/:file', retrieveUserAvatarHandler)
+
+        // ROUTE - SAVE FOLLOW
+        server.post('/api/follow/save', jasonBodyParser, saveFollowHandler)
+
+        // ROUTE - DELETE FOLLOW
+        server.delete('/api/follow/unsave/:followedId', deleteFollowHandler)
+
+        // ROUTE - FOLLOWING LIST
+        server.get('/api/follow/following', retrieveFollowingUsersHandler)
+
+        // ROUTE - FOLLOWERS LIST
+        server.get('/api/follow/followers', retrieveFollowersUsersHandler)
+
+        // ROUTE - SAVE POST
+        server.post('/api/post', jasonBodyParser, uploadPost.single('file'), savePostHandler)
+
+        // ROUTE - RETRIEVE ALL POSTS
+        server.get('/api/posts', retrieveAllPostsHandler)
+
+        // ROUTE - RETRIEVE POSTS FROM USER
+        server.get('/api/post', retrieveUserPostsHandler)
+
+        // ROUTE - RETRIEVE ANY POST
+        server.get('/api/post/:postId', retrieveSinglePostHandler)
+
+        // ROUTE - DELETE POST
+        server.delete('/api/post/:postId', deletePostHandler)
 
         // CONNECTION
         server.listen(process.env.PORT, () => console.log(`Server Online! Listening on: ${process.env.PORT}`))

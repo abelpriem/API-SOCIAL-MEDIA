@@ -38,18 +38,47 @@ const user = new Schema({
     }
 })
 
-const publication = new Schema({
-
-})
-
 const follow = new Schema({
-
+    user: {
+        type: Schema.ObjectId,
+        ref: 'User'
+    },
+    followed: {
+        type: Schema.ObjectId,
+        ref: 'User'
+    },
+    created_at: {
+        type: Date,
+        default: Date.now()
+    }
 })
 
+const post = new Schema({
+    user: {
+        type: Schema.ObjectId,
+        ref: 'User'
+    },
+    text: {
+        type: String,
+        required: true
+    },
+    file: {
+        type: String,
+        default: 'none'
+    },
+    created_at: {
+        type: Date,
+        default: Date.now()
+    }
+})
+
+// MODELS 
 const User = new model('User', user)
-const Publication = new model('Publication', publication)
 const Follow = new model('Follow', follow)
+const Post = new model('Post', post)
 
 export {
-    User
+    User,
+    Follow,
+    Post
 }
