@@ -19,15 +19,15 @@ export default async function retrieveUserAvatar(userId, fileName) {
         }
 
         const filePath = `./uploads/avatars/${fileName}`
-        const status = await fs.stat(filePath)
-
-        if (!status) {
-            throw new NotFoundError('Avatar/image not found... Please, check the name or the path')
-        }
+        await fs.stat(filePath)
 
         return filePath
     } catch (error) {
-        if (error instanceof NotFoundError || error instanceof ContentError) {
+        if (error.code === 'ENOENT') {
+            throw new NotFoundError('Avatar/image not found. Please, check the name or the path')
+        }
+
+        if (error instanceof NotFoundError || error instanceof ContentError || error instanceof fs.error) {
             throw error
         }
 

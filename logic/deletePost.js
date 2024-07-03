@@ -34,7 +34,7 @@ export default async function deletePost(userId, postId) {
 
         await Post.deleteOne({ _id: postId })
     } catch (error) {
-        if (error instanceof NotFoundError || error instanceof ContentError) {
+        if (error instanceof NotFoundError || error instanceof ContentError || error instanceof AuthorizationError) {
             throw error
         }
 

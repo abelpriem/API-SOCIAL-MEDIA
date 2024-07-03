@@ -28,7 +28,7 @@ export default async function savePost(userId, text, fileName, filePath, fileTyp
         } else {
             if (fileType !== 'image/jpeg' && fileType !== 'image/png') {
                 await fs.unlink(filePath)
-                throw new ContentError('Invalid image format. Please, try only with png or jpeg extension.')
+                throw new ContentError('Invalid image format. Please, try only with png or jpeg extension')
             }
 
             newPost = await Post.create({ user: userId, text: text, file: fileName })
@@ -38,7 +38,7 @@ export default async function savePost(userId, text, fileName, filePath, fileTyp
         return newPost
     } catch (error) {
         if (error.code === 11000) {
-            throw new DuplicityError(error.message)
+            throw new DuplicityError('Post has already been created!')
         }
 
         if (error instanceof NotFoundError || error instanceof ContentError) {

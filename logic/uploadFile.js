@@ -23,12 +23,13 @@ export default async function uploadFile(userId, fileName, filePath, fileType) {
 
         if (fileType !== 'image/jpeg' && fileType !== 'image/png') {
             await fs.unlink(filePath)
-            throw new ContentError('Invalid image format. Please, try only with png or jpeg extension.')
+            throw new ContentError('Invalid image format. Please, try only with png or jpeg extension')
         }
 
         const user = await User.findById(userId)
 
         if (!user) {
+            await fs.unlink(filePath)
             throw new NotFoundError('User not found. Try again')
         }
 

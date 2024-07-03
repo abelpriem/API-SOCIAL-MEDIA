@@ -23,7 +23,7 @@ export default async function retrievePageUser(userId, page) {
         const totalUsers = await User.countDocuments({})
 
         if (listUsers.length === 0) {
-            throw new NotFoundError('There arent any users on that page yet!')
+            throw new NotFoundError('There are no users on that page yet!')
         }
 
         return { users: listUsers, total: totalUsers }

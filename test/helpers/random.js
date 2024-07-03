@@ -25,13 +25,23 @@ function id() {
     return new ObjectId()
 }
 
+function text() {
+    return `text-${Math.random()}`
+}
+
+function file() {
+    return `file-${Math.random()}`
+}
+
 const random = {
     name,
     surname,
     username,
     email,
     password,
-    id
+    id,
+    text,
+    file
 }
 
 export default random

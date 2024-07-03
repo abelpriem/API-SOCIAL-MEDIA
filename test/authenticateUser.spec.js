@@ -11,12 +11,12 @@ const { NotFoundError, ContentError, CredentialsError } = errors
 dotenv.config()
 
 describe('authenticateUser', () => {
-    before(() => mongoose.connect(process.env.URL_MONDODB_TEST))
+    before(() => mongoose.connect(process.env.URL_MONGODB_TEST))
 
     beforeEach(() => User.deleteMany())
 
     // POSITIVE CASE
-    it('succes on authenticate with existing user', async () => {
+    it('Succes on authenticate with existing user', async () => {
         const name = random.name()
         const surname = random.surname()
         const username = random.username()
@@ -34,7 +34,7 @@ describe('authenticateUser', () => {
     })
 
     // NEGATIVE CASE - User not found
-    it('fails on user not found', async () => {
+    it('Failure on user not found', async () => {
         const email = random.email()
         const password = random.password()
 
@@ -48,7 +48,7 @@ describe('authenticateUser', () => {
     })
 
     // NEGATIVE CASE - Wrong credentials
-    it('fails on login user with wrong credentials', async () => {
+    it('Failure on login user with wrong credentials', async () => {
         const name = random.name()
         const surname = random.surname()
         const username = random.username()
@@ -69,7 +69,7 @@ describe('authenticateUser', () => {
     })
 
     // NEGATIVE CASE - Empty email field
-    it('fails on login user with empty email field', async () => {
+    it('Failure on login user with empty email field', async () => {
         const email = random.email()
 
         try {
@@ -82,7 +82,7 @@ describe('authenticateUser', () => {
     })
 
     // NEGATIVE CASE - Empty password field
-    it('fails on login user with empty password field', async () => {
+    it('Failure on login user with empty password field', async () => {
         const password = random.password()
 
         try {
@@ -95,7 +95,7 @@ describe('authenticateUser', () => {
     })
 
     // NEGATIVE CASE - Incorrect email format
-    it('fails on incorrect email format', async () => {
+    it('Failure on incorrect email format', async () => {
         const email = `email-${Math.random()}`
         const password = random.password()
 

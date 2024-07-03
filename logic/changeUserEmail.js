@@ -19,6 +19,10 @@ export default async function changeUserEmail(userId, newEmail) {
 
         const user = await User.findById(userId)
 
+        if (!user) {
+            throw new NotFoundError('User not found. Try again')
+        }
+
         if (user.email === newEmail) {
             throw new ContentError('Warning! New email and current email are the same...')
         }
