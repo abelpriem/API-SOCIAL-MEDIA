@@ -13,6 +13,18 @@
 - [x] `CRUD system`
 - [x] All logic has been tested using `MOCHA`, with unit testing, html testing and .spec format
 
+## UTILITIES
+
+- User creation section with registration and authentication using `JWT token`
+- Creation of posts or publications with different sections: text, files...
+- User tracking system (follows) in both directions: **follower and following**
+- Recovery of user data, posts and follows
+- Token verification in all logics
+- Construction of own `system error`: System, Not found, Duplicity, Content, Authorization, Credentials...
+- `Utilities` and `randoms` tools
+- Unit testing of ALL logics using `MOCHA`
+- Testing .html and .spec
+
 ## MODELS
 
 `USERS`
